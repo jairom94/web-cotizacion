@@ -1,20 +1,19 @@
 <template>
-  <div ref="$container" class="carrusel">
+  <div ref="$container" class="carrusel relative">
     <div
       ref="$slider"
       @touchstart="dragStart"
       @touchmove="dragging"
+      @touchend="dragEnd"
       class="grande"
       :style="{
-        transform: `translateX(-${transitionImg}%)`,
-        width: `${widthCarrusel}%`,
-      }"
+        transform: `translateX(-${transitionImg*100}%)`,        
+        }"
     >
       <figure
         v-for="tienda in tiendas"
         :key="tienda.name"
-        class="cont-img relative"
-        :style="{ width: `${widthImg}%` }"
+        class="cont-img relative"        
       >
         <button class="btn-tiendas">Visitar {{ tienda.name }}</button>
         <img
@@ -43,17 +42,10 @@ const $container = ref(null);
 const imgsTotal = computed(() => {
   return props.tiendas.length;
 });
-const widthCarrusel = computed(() => {
-  return imgsTotal.value * 100;
-});
-const widthImg = computed(() => {
-  return `${100 / imgsTotal.value}`;
-});
 const imgSelect = ref();
 const transitionImg = ref(0);
 const changeImg = (e, index) => {
-  const sizeImg = 100 / imgsTotal.value;
-  transitionImg.value = index * sizeImg;
+  transitionImg.value = index;  
   imgSelect.value = e.target;
   const puntos = document.querySelectorAll(".punto > button");
   puntos.forEach((punto) => {
@@ -65,90 +57,52 @@ const changeImg = (e, index) => {
 //EVENTOS TOUCH MOVIL
 const startDrag = ref(false);
 const isDragging = ref(false);
-let positionDiff,
-  prevScrollLeft,
-  prevPageX = 0;
-const autoSlide = () => {
-  const $firstEl = $slider.value.firstElementChild;
-  positionDiff = Math.abs(positionDiff);
-  let valDifference = $firstEl.clientWidth - positionDiff;
-  if ($slider.value.scrollLeft > prevScrollLeft) {
-    $slider.value.scrollLeft +=
-      positionDiff > $firstEl.clientWidth / 3 ? valDifference : -positionDiff;
-    return;
-  }
-  $slider.value.scrollLeft -=
-    positionDiff > $firstEl.clientWidth / 3 ? valDifference : -positionDiff;
-};
-let touchStart = 0;
-let touchEnd = 0;
-let startX = 0;
-let currentX = 0;
-//const currentSlide = ref(0);
-const dragStart = (e) => {
-  console.log("Inica Deslizado");
-  startX = e.event.touches[0].clientX;
-  //console.log(e.touches[0]);
-  //const sliderX = $slider.value.offsetLeft;
-  //const toqueX = e.touches[0].clientX - sliderX;
-  //const anchoContainer = $container.value.offsetWidth;
-  //const perSlide = toqueX/anchoContainer;
-  //touchStart = perSlide*Number(widthImg.value);
-
-  //startDrag.value = true;
-  //prevPageX = e.touches[0].pageX;
-  //prevScrollLeft = $slider.value.scrollLeft;
-};
-const dragging = (e) => {  
-  if (!startX) return;
-  currentX = e.event.touches[0].clientX;
-  const diffX = startX - currentX;
-  console.log(startX, currentX);
+const deslizarImage = () => {
   if (Math.abs(diffX) > 50) {
     if (diffX > 0) {
-      transitionImg.value++;
+      if(transitionImg.value < imgsTotal.value -1)transitionImg.value++;     
     } else {
-      transitionImg.value--;
+      if(transitionImg.value > 0)transitionImg.value--;
     }
     startX = 0;
     currentX = 0;
   }
-  /*e.preventDefault();
-    const sliderX = $slider.value.offsetLeft;  
-    const toqueX = e.touches[0].clientX - sliderX;
-    const anchoContainer = $container.value.offsetWidth;
-    const perSlide = toqueX/anchoContainer;
-    touchEnd = perSlide - touchStart;*/
-  /*isDragging.value = true;
-    $slider.value.classList.add("dragging");
-    positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;    
-    $slider.value.scrollLeft = prevScrollLeft - positionDiff;*/
+};
+
+let startX = 0;
+let currentX = 0;
+let diffX = 0;
+const dragStart = (e) => {
+  startDrag.value = true;
+  startX = e.touches[0].clientX;
+};
+const dragging = (e) => {  
+  if (!startDrag.value) return;
+  isDragging.value = true;
+  currentX = e.touches[0].clientX;
+  diffX = startX - currentX;      
 };
 const dragEnd = (e) => {
-  console.log("Fin del deslizado");
-  //$slider.value.classList.remove("dragging");
   startDrag.value = false;
-  if (!isDragging.value) return;
+  if(!isDragging)return;
   isDragging.value = false;
-  transitionImg.value = touchEnd;
-  //autoSlide();
+  deslizarImage();
 };
 </script>
 <style scoped>
 .carrusel {
-  @apply w-[90vw] bg-slate-900 pb-1 overflow-hidden;
+  @apply w-[90vw] h-[40vh] bg-slate-900 overflow-hidden;
 
   .grande {
-    @apply flex flex-nowrap justify-between items-center gap-2 p-1 transition-all;
+    @apply flex size-full transition-all ease-in-out duration-300;
 
     .cont-img {
-      @apply h-[40vh];
-
+      @apply min-w-full h-full box-border;
       .img {
-        mask-image: linear-gradient(black 60%, transparent);
+        mask-image: linear-gradient(black 40%, transparent);
       }
       .btn-tiendas {
-        @apply absolute transition-all block border-2 border-white px-4 py-2 text-white left-2 bottom-2 z-10 rounded;
+        @apply absolute transition-all block border-2 border-white px-4 py-2 text-white left-2 bottom-10 z-10 rounded;
       }
       .btn-tiendas:hover {
         @apply border-slate-300 text-slate-300;
@@ -156,7 +110,7 @@ const dragEnd = (e) => {
     }
   }
   .puntos {
-    @apply flex flex-row gap-2 justify-center py-2;
+    @apply flex flex-row gap-2 justify-center py-2 absolute bottom-2 left-[50%] translate-x-[-50%];
 
     .punto {
       @apply size-3 bg-gray-500 rounded-full transition-all;
