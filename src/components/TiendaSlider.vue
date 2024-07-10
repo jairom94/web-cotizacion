@@ -60,7 +60,15 @@ const isDragging = ref(false);
 const deslizarImage = () => {
   if (Math.abs(diffX) > 50) {
     if (diffX > 0) {
-      if(transitionImg.value < imgsTotal.value -1)transitionImg.value++;     
+      if(transitionImg.value < imgsTotal.value -1){
+        transitionImg.value++;
+        const puntos = document.querySelectorAll(".punto > button");
+        puntos.forEach((punto) => {
+          punto.classList.remove("activo");
+        });
+        puntos[transitionImg.value].classList.add("activo");
+
+      }     
     } else {
       if(transitionImg.value > 0)transitionImg.value--;
     }
