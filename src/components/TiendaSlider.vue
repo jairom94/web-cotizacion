@@ -99,11 +99,11 @@ const dragStart = (e) => {
   //prevPageX = e.touches[0].pageX;
   //prevScrollLeft = $slider.value.scrollLeft;
 };
-const dragging = (e) => {
-  console.log("Moviendo el selector");
+const dragging = (e) => {  
   if (!startX) return;
   currentX = e.event.touches[0].clientX;
   const diffX = startX - currentX;
+  console.log(startX, currentX);
   if (Math.abs(diffX) > 50) {
     if (diffX > 0) {
       transitionImg.value++;
