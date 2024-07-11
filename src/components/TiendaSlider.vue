@@ -70,7 +70,14 @@ const deslizarImage = () => {
 
       }     
     } else {
-      if(transitionImg.value > 0)transitionImg.value--;
+      if(transitionImg.value > 0){
+        transitionImg.value--;
+        const puntos = document.querySelectorAll(".punto > button");
+        puntos.forEach((punto) => {
+          punto.classList.remove("activo");
+        });
+        puntos[transitionImg.value].classList.add("activo");
+      }
     }
     startX = 0;
     currentX = 0;

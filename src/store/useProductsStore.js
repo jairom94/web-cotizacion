@@ -51,7 +51,7 @@ const useProductsStore = defineStore('products', {
             else if(shop === SHEIN.superventas){
                 const response = await fetch(`/src/API/SHEIN/${shop}.json`);
                 const data = await response.json();
-                this.products_shein_superventas = data;//.slice(0,4);
+                this.products_shein_superventas = data;//.slice(0,8);
                 //console.log(data)
             }
             else if(shop === SHEIN.novedades){
