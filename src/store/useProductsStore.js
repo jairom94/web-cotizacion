@@ -36,32 +36,32 @@ const useProductsStore = defineStore('products', {
     },
     actions:{
         async fetchProducts(shop){
-            if(shop===AMAZON.hogar){
-                const response = await fetch(`/src/API/AMAZON/${shop}.json`);
+            if(shop===AMAZON.hogar){                
+                const response = await fetch(`/API/AMAZON/${shop}.json`);
                 const data = await response.json();
                 this.products_amazon_hogar = data;//.slice(0,4);
                 //console.log(data)
             }
             else if(shop===AMAZON.cuidado){
-                const response = await fetch(`/src/API/AMAZON/${shop}.json`);
+                const response = await fetch(`/API/AMAZON/${shop}.json`);
                 const data = await response.json();
                 this.products_amazon_cuidado = data;//.slice(0,4);
                 //console.log(data)
             }
             else if(shop === SHEIN.superventas){
-                const response = await fetch(`/src/API/SHEIN/${shop}.json`);
+                const response = await fetch(`/API/SHEIN/${shop}.json`);
                 const data = await response.json();
                 this.products_shein_superventas = data;//.slice(0,8);
                 //console.log(data)
             }
             else if(shop === SHEIN.novedades){
-                const response = await fetch(`/src/API/SHEIN/${shop}.json`);
+                const response = await fetch(`/API/SHEIN/${shop}.json`);
                 const data = await response.json();
                 this.products_shein_novedades = data.slice(0,6);
                 //console.log(data);
             }
             else if(shop === ALIEXPRESS.sugeridos){
-                const response = await fetch(`/src/API/ALIEXPRESS/${shop}.json`);
+                const response = await fetch(`/API/ALIEXPRESS/${shop}.json`);
                 const data = await response.json();
                 this.products_aliexpress_sugeridos = data;//.slice(0,6);
                 //console.log(data);
