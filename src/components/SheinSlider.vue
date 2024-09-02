@@ -1,5 +1,5 @@
 <template>
-  <div ref="$contenedor" class="contenedor relative">
+  <div class="relative">
     <div
       class="size-8 absolute rounded-full flex justify-center items-center top-[45%] -left-4 z-10"
     >
@@ -10,6 +10,8 @@
         <
       </button>
     </div>
+  <div ref="$contenedor" class="contenedor relative">
+    
     <div
       ref="$slider"
       class="slider"
@@ -19,6 +21,7 @@
       :style="{
         transform: `translateX(-${slideX * 100}%)`,
       }"
+      :class="[animation ? 'animate-slide' : '', isPaused ? 'pause':'']"
     >
       <div
         class="item cursor-pointer"
@@ -33,8 +36,9 @@
           :discount="product.discount"
         ></product-shein>
       </div>
-    </div>
-    <div
+    </div>    
+  </div>
+  <div
       class="size-8 rounded-full absolute flex justify-center items-center -right-4 top-[45%]"
     >
       <button
@@ -44,10 +48,14 @@
         >
       </button>
     </div>
-  </div>
+</div>
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from "vue";
+const props = defineProps([
+  'animation'
+])
+const isPaused = ref(false);
 const $contenedor = ref(null);
 const $slider = ref(null);
 const startDrag = ref(false);
@@ -72,6 +80,11 @@ import useProductsStore from "../store/useProductsStore";
 
 const moveLeft = () => {
     if(slideX.value > 0){
+        if(props.animation){
+          isPaused.value = true;
+          slideX.value-=increX.value;  
+          isPaused.value = false;
+        }
         slideX.value-=increX.value;
     }
     if(slideX.value < 0){
@@ -79,14 +92,9 @@ const moveLeft = () => {
     }    
 };
 const moveRight = () => {        
-    if(slideX.value < (anchoContenedor.value/anchoSlider.value)){
-        const diff = slideX.value - (anchoContenedor.value/anchoSlider.value);                
-        if(diff < 0.5 && slideX > 0.5){            
-            slideX.value+=Math.abs(diff);
-        }else{
-            slideX.value+=increX.value;
-        }
-        
+    if (slideX.value < useProducts.products_shein_superventas.length - 1){
+        //const diff = slideX.value - (anchoContenedor.value/anchoSlider.value);                
+        slideX.value+=increX.value;        
     }
     //console.log(slideX.value);
 };
@@ -160,7 +168,7 @@ onUnmounted(() => {
 .contenedor {
   --width-contenedor: 45vw;
   --height-contenedor: 300px;
-  @apply w-[85vw] h-[300px] border-2 border-white;
+  @apply w-[85vw] h-[300px] border-2 border-white overflow-hidden;
   .slider {
     @apply flex size-full transition-all ease-in-out duration-300;
     .item {
@@ -179,5 +187,20 @@ onUnmounted(() => {
       @apply bg-indigo-600;
     }
   }
+}
+.animate-slide{
+  animation: slide 60s linear infinite;
+}
+.pause{
+  animation-play-state: paused;
+}
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-900%);
+  }
+  
 }
 </style>

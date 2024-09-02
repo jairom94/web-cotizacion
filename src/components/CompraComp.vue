@@ -11,7 +11,7 @@
     >
       <div class="card-header">
         <h5 class="card-title text-blue-300 underline">
-          <a :href="compra.url">{{ compra.url }}</a>
+          <a :title="compra.url" :href="compra.url">{{ compra.url }}</a>
         </h5>
         <div class="h-5 px-2 flex items-center justify-center rounded-xl absolute top-2 right-3 bg-teal-600 text-xs">
           <span :title="(index + 1)">
@@ -23,10 +23,10 @@
         <p v-if="compra.unique" class="card-text grow">{{ txt_unique }}</p>
         <p v-else class="card-text grow uppercase">DETALLE: {{ compra.description }}</p>
         <div class="space-x-2 grow-0 pl-4 pr-2">
-          <button class="btn btn-danger" @click="handleDeleteCompra(compra.id)">
+          <button class="btn btn-danger" title="Borrar" @click="handleDeleteCompra(compra.id)">
             <ico-borrar width="10" height="20"></ico-borrar>
           </button>
-          <button class="btn btn-primary" @click="handleEditCompra(compra.id)">
+          <button class="btn btn-primary" title="Editar" @click="handleEditCompra(compra.id)">
             <ico-editar width="10" height="20"></ico-editar>
           </button>
         </div>

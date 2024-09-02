@@ -1,6 +1,6 @@
 <template>
-  <div class="text-white w-full space-y-2">
-    <div class="relative p-2 border w-[90vw] border-white rounded">
+  <div class="text-white w-[90vw] space-y-2">
+    <div class="relative p-2 border border-white rounded">
       
       <div 
         ref="$notify"                
@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <div class="">
+    
       <div class="">
         <compra-comp v-for="(compra,index) in urls" 
         :key="index"
@@ -78,7 +78,7 @@
             </button>
         </div>
       </div>
-    </div>
+    
   </div>
 </template>
 <script setup>

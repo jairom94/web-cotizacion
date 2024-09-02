@@ -24,7 +24,7 @@
             <button class="font-normal border rounded px-4 py-1 hover:bg-slate-700 transition-all">Visitar Tienda</button>
           </a>          
         </h3>
-        <shein-slider></shein-slider>
+        <shein-slider animation="true"></shein-slider>
         <h3 class="text-white w-full font-bold grid grid-cols-1 place-items-center gap-2 md:grid-cols-2">          
           <span class="md:block md:text-left md:w-full">SHEIN SUPERVENTAS</span>
           <a class="md:block md:text-right md:w-full" :href="data.tiendas[1].url">
@@ -46,7 +46,9 @@
         
       </div>
     </main>
-    <footer></footer>
+    <footer>
+      <footer-comp></footer-comp>
+    </footer>
   </div>
 </template>
 <script setup>
@@ -129,6 +131,7 @@ import CotizarCompra from "./components/CotizarCompra.vue";
 import SheinSlider from "./components/SheinSlider.vue";
 import SheinBox from "./components/SheinBox.vue";
 import AliSlider from "./components/AliSlider.vue";
+import FooterComp from "./components/partial/FooterComp.vue";
 </script>
 <style scoped>
 .btn {

@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full bg-teal-800 h-[60px] flex items-center pl-2 fixed z-50">
+  <header class="w-full bg-slate-800 h-[60px] flex items-center pl-2 fixed z-50">
     <div class="pt-2">
       <button @click="show = !show"       
       class="btn-menu"
@@ -13,11 +13,15 @@
     <Transition name="slide-fade">
       <ul v-if="show" class="menu">
         <li
-          class="bg-teal-700 w-full h-full flex justify-center items-center py-2 underline uppercase"
+          class="bg-slate-700 w-full h-full flex justify-center items-center py-2 underline uppercase"
         >
-          Tiendas disponibles Tiendas
+          Tiendas disponibles
         </li>
-        <li class="items" v-for="tienda in tiendas" :key="tienda.name">
+        <li class="items flex gap-2" v-for="tienda in tiendas" :key="tienda.name">
+          <span>
+            <ico-shop width="15" height="20">            
+            </ico-shop>
+          </span>
           {{ tienda.name }}
         </li>
       </ul>
@@ -25,6 +29,7 @@
   </header>
 </template>
 <script setup>
+import IcoShop from '../icons/IcoShop.vue';
 import { ref } from "vue";
 const props = defineProps(["tiendas"]);
 const show = ref(false);
@@ -60,12 +65,12 @@ const show = ref(false);
   }
 }
 .menu {
-  @apply absolute bg-emerald-800 text-white top-[60px] left-0 w-[100vw] min-h-[calc(100vh-60px)];
+  @apply absolute bg-slate-800 text-white top-[60px] left-0 w-[100vw] min-h-[calc(100vh-60px)];
   @apply grid grid-cols-1 place-items-center gap-1;
   .items {
-    @apply p-2 cursor-pointer bg-emerald-900 w-full h-full text-center flex justify-center items-center;
+    @apply p-2 cursor-pointer bg-slate-900 w-full h-full text-center flex justify-center items-center;
     &:hover {
-      @apply bg-emerald-800;
+      @apply bg-slate-800;
     }
   }
 }
